@@ -40,7 +40,7 @@ namespace FlexLabs
             Type u = Nullable.GetUnderlyingType(newType);
             if (u != null)
             {
-                if (String.IsNullOrWhiteSpace(value))
+                if (String.IsNullOrEmpty(value) || value.Trim().Equals(String.Empty))
                     return fallback;
 
                 if (u.IsEnum)
@@ -48,7 +48,7 @@ namespace FlexLabs
                 return AutoConvert(value, u);
             }
 
-            if (String.IsNullOrWhiteSpace(value))
+            if (String.IsNullOrEmpty(value) || value.Trim().Equals(String.Empty))
             {
                 if (fallback != null)
                     return fallback;

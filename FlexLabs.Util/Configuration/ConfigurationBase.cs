@@ -79,7 +79,7 @@ namespace FlexLabs.Configuration
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(key))
+                if (String.IsNullOrEmpty(key) || key.Trim().Equals(String.Empty))
                     return null;
 
                 if (ConfigurationManager.AppSettings.AllKeys.Any(k => key.Equals(k, StringComparison.OrdinalIgnoreCase)))
