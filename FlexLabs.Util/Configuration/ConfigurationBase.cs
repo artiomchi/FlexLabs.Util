@@ -27,7 +27,7 @@ namespace FlexLabs.Configuration
 
         private static IDictionary<String, String> DBSettings;
         private static ConfigurationBase _default;
-        private static ConfigurationBase Default
+        protected static ConfigurationBase Default
         {
             get
             {
