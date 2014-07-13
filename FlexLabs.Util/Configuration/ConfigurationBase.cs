@@ -47,6 +47,7 @@ namespace FlexLabs.Configuration
             lock (UpdateSettingsLock)
             {
                 DBSettings = configStore.LoadValues();
+                SettingsUpdated();
             }
         }
 
@@ -59,6 +60,11 @@ namespace FlexLabs.Configuration
             {
                 Default.UpdateSettings(configStore);
             }
+        }
+
+        protected virtual void SettingsUpdated()
+        {
+
         }
 
         /// <summary>
