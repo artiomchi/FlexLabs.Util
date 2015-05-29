@@ -65,7 +65,7 @@
   <Target Name="SignOutput" AfterTargets="CoreCompile">
     <PropertyGroup>
       <TimeStampServerUrl>http://timestamp.digicert.com</TimeStampServerUrl>
-      <CertificateCriteria>116C26C805AA8202311CFC97C92C9A86499CC336</CertificateCriteria>
+      <CertificateCriteria>/n "Artiom Chilaru"</CertificateCriteria>
     </PropertyGroup>
     <ItemGroup>
       <SignableFiles Include="$(ProjectDir)obj\$(ConfigurationName)\$(TargetName)$(TargetExt)" />
@@ -73,6 +73,6 @@
     <GetFrameworkSdkPath>
       <Output TaskParameter="Path" PropertyName="SdkPath" />
     </GetFrameworkSdkPath>
-    <Exec Command="&quot;$(SdkPath)Bin\signtool.exe&quot; sign /sha1 $(CertificateCriteria) /t &quot;$(TimestampServerUrl)&quot; /a &quot;%(SignableFiles.Identity)&quot;" />
+    <Exec Command="&quot;$(SdkPath)Bin\signtool.exe&quot; sign $(CertificateCriteria) /t &quot;$(TimestampServerUrl)&quot; /a &quot;%(SignableFiles.Identity)&quot;" />
   </Target>
 </Project>
