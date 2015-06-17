@@ -23,7 +23,7 @@ namespace FlexLabs.Injection
         /// </summary>
         /// <typeparam name="TService">Service class type</typeparam>
         /// <returns>Strongly typed service instance</returns>
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         public static TService GetInstance<TService>() where TService : class
         {
             return _instance.GetInstanceInternal<TService>();
@@ -34,7 +34,7 @@ namespace FlexLabs.Injection
         /// </summary>
         /// <typeparam name="TService">Service class type</typeparam>
         /// <returns>Strongly typed service instance</returns>
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         public static TService TryGetInstance<TService>() where TService : class
         {
             return _instance.TryGetInstanceInternal<TService>();
@@ -45,7 +45,7 @@ namespace FlexLabs.Injection
         /// </summary>
         /// <param name="serviceType">Service class type</param>
         /// <returns>Strongly typed service instance</returns>
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         public static Object GetInstance(Type serviceType)
         {
             return _instance.GetInstanceInternal(serviceType);

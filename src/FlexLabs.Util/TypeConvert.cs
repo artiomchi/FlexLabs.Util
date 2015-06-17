@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace FlexLabs
 {
@@ -34,7 +35,7 @@ namespace FlexLabs
         {
             if (newType.Equals(typeof(String)))
                 return value;
-            if (newType.IsEnum)
+            if (newType.GetTypeInfo().IsEnum)
                 return Enum.Parse(newType, value);
 
             Type u = Nullable.GetUnderlyingType(newType);
@@ -43,7 +44,7 @@ namespace FlexLabs
                 if (String.IsNullOrEmpty(value) || value.Trim().Equals(String.Empty))
                     return fallback;
 
-                if (u.IsEnum)
+                if (u.GetTypeInfo().IsEnum)
                     return Enum.Parse(u, value);
                 return AutoConvert(value, u);
             }
@@ -52,7 +53,7 @@ namespace FlexLabs
             {
                 if (fallback != null)
                     return fallback;
-                if (newType.IsValueType)
+                if (newType.GetTypeInfo().IsValueType)
                     return Activator.CreateInstance(newType);
                 return null;
             }

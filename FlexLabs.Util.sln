@@ -1,16 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexLabs.Util", "FlexLabs.Util\FlexLabs.Util.csproj", "{97F8E81A-EC36-431D-9619-E31D512B4620}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{82A64D03-D721-4CFC-8763-B4BE7D82ACAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexLabs.Util.Tests", "FlexLabs.Util.Tests\FlexLabs.Util.Tests.csproj", "{03A32E67-ED3D-4B93-89E6-E92B1F986774}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{81AAB7AE-1E28-4A05-B242-ED8B9DBBB06B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{121AD9D1-4D2F-4364-9D48-D7506E827C91}"
 	ProjectSection(SolutionItems) = preProject
-		NuGet\FlexLabs.Util.nuspec = NuGet\FlexLabs.Util.nuspec
+		global.json = global.json
 	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FlexLabs.Util", "src\FlexLabs.Util\FlexLabs.Util.xproj", "{99835907-F939-4D09-B055-7A2894D0310C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B3771F71-D06B-4723-8DE6-F0C16E77F6C9}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FlexLabs.Util.Tests", "test\FlexLabs.Util.Tests\FlexLabs.Util.Tests.xproj", "{16EA55D3-19C3-4737-AF00-949244E195DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,16 +22,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{97F8E81A-EC36-431D-9619-E31D512B4620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97F8E81A-EC36-431D-9619-E31D512B4620}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97F8E81A-EC36-431D-9619-E31D512B4620}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97F8E81A-EC36-431D-9619-E31D512B4620}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03A32E67-ED3D-4B93-89E6-E92B1F986774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03A32E67-ED3D-4B93-89E6-E92B1F986774}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03A32E67-ED3D-4B93-89E6-E92B1F986774}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03A32E67-ED3D-4B93-89E6-E92B1F986774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99835907-F939-4D09-B055-7A2894D0310C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99835907-F939-4D09-B055-7A2894D0310C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99835907-F939-4D09-B055-7A2894D0310C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99835907-F939-4D09-B055-7A2894D0310C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16EA55D3-19C3-4737-AF00-949244E195DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16EA55D3-19C3-4737-AF00-949244E195DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16EA55D3-19C3-4737-AF00-949244E195DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16EA55D3-19C3-4737-AF00-949244E195DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{99835907-F939-4D09-B055-7A2894D0310C} = {82A64D03-D721-4CFC-8763-B4BE7D82ACAB}
+		{16EA55D3-19C3-4737-AF00-949244E195DF} = {B3771F71-D06B-4723-8DE6-F0C16E77F6C9}
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,9 @@
 ﻿using FlexLabs.Injection;
 using System;
 using System.Collections.Generic;
+#if !DNXCORE50
 using System.Configuration;
-using System.Linq;
+#endif
 
 namespace FlexLabs.Configuration
 {
@@ -88,8 +89,11 @@ namespace FlexLabs.Configuration
                 if (String.IsNullOrEmpty(key) || key.Trim().Equals(String.Empty))
                     return null;
 
-                if (ConfigurationManager.AppSettings.AllKeys.Any(k => key.Equals(k, StringComparison.OrdinalIgnoreCase)))
-                    return ConfigurationManager.AppSettings[key];
+#if !DNXCORE50
+                foreach (var appKey in ConfigurationManager.AppSettings.AllKeys)
+                    if (key.Equals(appKey, StringComparison.OrdinalIgnoreCase))
+                        return ConfigurationManager.AppSettings[key];
+#endif
 
                 if (DBSettings == null)
                     throw new NullReferenceException("Settings weren't initialised properly");
@@ -129,7 +133,9 @@ namespace FlexLabs.Configuration
                     confSource = Injector.GetInstance<IConfigurationSource>();
                     sourceLocal = true;
                 }
-                var value = Convert.ToString(valueObj);
+                String value = null;
+                if (valueObj != null)
+                    value = valueObj.ToString();
                 confSource.UpdateValue(key, value);
                 DBSettings[key] = value;
             }
