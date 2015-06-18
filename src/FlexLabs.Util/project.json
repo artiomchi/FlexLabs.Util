@@ -1,5 +1,5 @@
 {
-  "version": "1.1.1-*",
+  "version": "1.1.2-*",
   "title": "FlexLabs Utils",
   "description": "It's like a swiss army knife.. We've got some extra helpers for all kinds of situations!",
   "authors": [ "Artiom Chilaru" ],
@@ -13,6 +13,12 @@
   "frameworks": {
     "net35": {
       "frameworkAssemblies": {
+        "System.Configuration": "",
+        "System.Linq": ""
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
         "System.Configuration": ""
       }
     },
@@ -23,10 +29,12 @@
     },
     "dnxcore50": {
       "dependencies": {
-        "System.ComponentModel.TypeConverter": "4.0.0-beta-22816",
-        "System.Runtime.Extensions": "4.0.10-beta-22816",
-        "System.Threading": "4.0.10-beta-22816",
-        "Microsoft.CSharp": "4.0.0-beta-22816"
+        "System.ComponentModel.TypeConverter": "4.0.0-beta-*",
+        "System.Linq": "4.0.0-beta-*",
+        "System.Linq.Queryable": "4.0.0-beta-*",
+        "System.Runtime.Extensions": "4.0.10-beta-*",
+        "System.Threading": "4.0.10-beta-*",
+        "Microsoft.CSharp": "4.0.0-beta-*"
       }
     }
   }
