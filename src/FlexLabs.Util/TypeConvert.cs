@@ -24,6 +24,15 @@ namespace FlexLabs
             return (T)ToType(value, typeof(T), fallback);
         }
 
+        private static Boolean IsTypeEnum(Type type)
+        {
+#if DNXCORE50
+            return type.GetTypeInfo().IsEnum;
+#else
+            return type.IsEnum;
+#endif
+        }
+
         /// <summary>
         /// Convert the String value to another type
         /// </summary>
@@ -35,7 +44,7 @@ namespace FlexLabs
         {
             if (newType.Equals(typeof(String)))
                 return value;
-            if (newType.GetTypeInfo().IsEnum)
+            if (IsTypeEnum(newType))
                 return Enum.Parse(newType, value);
 
             Type u = Nullable.GetUnderlyingType(newType);
@@ -44,7 +53,7 @@ namespace FlexLabs
                 if (String.IsNullOrEmpty(value) || value.Trim().Equals(String.Empty))
                     return fallback;
 
-                if (u.GetTypeInfo().IsEnum)
+                if (IsTypeEnum(u))
                     return Enum.Parse(u, value);
                 return AutoConvert(value, u);
             }
@@ -53,7 +62,7 @@ namespace FlexLabs
             {
                 if (fallback != null)
                     return fallback;
-                if (newType.GetTypeInfo().IsValueType)
+                if (IsTypeEnum(newType))
                     return Activator.CreateInstance(newType);
                 return null;
             }

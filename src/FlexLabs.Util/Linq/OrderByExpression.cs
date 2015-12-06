@@ -5,18 +5,18 @@ using System.Linq.Expressions;
 namespace FlexLabs.Linq
 {
     // Derived from http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=2641510&SiteID=1
-    public class OrderByExpression<T, U> : IOrderByExpression<T>
+    public class OrderByExpression<TKey, TResult> : IOrderByExpression<TKey>
     {
-        private Expression<Func<T, U>> exp = null;
-        public OrderByExpression(Expression<Func<T, U>> expression)
+        private Expression<Func<TKey, TResult>> exp = null;
+        public OrderByExpression(Expression<Func<TKey, TResult>> expression)
         {
             exp = expression;
         }
-        public IOrderedQueryable<T> ApplyOrdering(IQueryable<T> query)
+        public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query)
         {
             return query.OrderBy(exp);
         }
-        public IOrderedQueryable<T> ApplyOrdering(IQueryable<T> query, bool ascending)
+        public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query, bool ascending)
         {
             if (ascending)
                 return query.OrderBy(exp);
