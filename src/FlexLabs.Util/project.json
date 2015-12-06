@@ -36,5 +36,14 @@
         "Microsoft.CSharp": "4.0.1-beta-*"
       }
     }
+  },
+
+  "scripts": {
+    "postbuild": [
+      "%project:Directory%\\..\\..\\..\\signtool.exe sign /n \"Artiom Chilaru\" /t \"http://timestamp.digicert.com\" /a \"%project:Directory%\\..\\..\\artifacts\\bin\\FlexLabs.Util\\Release\\dnx451\\FlexLabs.Util.dll",
+      "%project:Directory%\\..\\..\\..\\signtool.exe sign /n \"Artiom Chilaru\" /t \"http://timestamp.digicert.com\" /a \"%project:Directory%\\..\\..\\artifacts\\bin\\FlexLabs.Util\\Release\\dnxcore50\\FlexLabs.Util.dll",
+      "%project:Directory%\\..\\..\\..\\signtool.exe sign /n \"Artiom Chilaru\" /t \"http://timestamp.digicert.com\" /a \"%project:Directory%\\..\\..\\artifacts\\bin\\FlexLabs.Util\\Release\\net35\\FlexLabs.Util.dll",
+      "%project:Directory%\\..\\..\\..\\signtool.exe sign /n \"Artiom Chilaru\" /t \"http://timestamp.digicert.com\" /a \"%project:Directory%\\..\\..\\artifacts\\bin\\FlexLabs.Util\\Release\\net45\\FlexLabs.Util.dll"
+    ]
   }
 }
