@@ -56,6 +56,11 @@ namespace FlexLabs.Linq
             }
         }
 
+        public Boolean ContainsKey(TKey key)
+        {
+            return storage.ContainsKey(key);
+        }
+
         public IEnumerator GetEnumerator()
         {
             throw new NotImplementedException();
