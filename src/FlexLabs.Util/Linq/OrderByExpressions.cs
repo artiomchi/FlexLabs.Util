@@ -25,10 +25,8 @@ namespace FlexLabs.Linq
             expr4 = expression4;
             expr5 = expression5;
         }
-        public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query)
-        {
-            return ApplyOrdering(query, true);
-        }
+        public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query) => ApplyOrdering(query, true);
+
         public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query, bool ascending)
         {
             if (ascending)

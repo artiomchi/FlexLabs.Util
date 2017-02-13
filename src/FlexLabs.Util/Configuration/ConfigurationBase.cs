@@ -1,7 +1,7 @@
 ﻿using FlexLabs.Injection;
 using System;
 using System.Collections.Generic;
-#if !DNXCORE50
+#if !NETSTANDARD1_1
 using System.Configuration;
 #endif
 
@@ -63,18 +63,14 @@ namespace FlexLabs.Configuration
             }
         }
 
-        protected virtual void SettingsUpdated()
-        {
-
-        }
+        protected virtual void SettingsUpdated() { }
 
         /// <summary>
         /// Get a configuration value
         /// </summary>
         /// <param name="key">Configuration key</param>
         /// <returns>Configuration value</returns>
-        protected String this[String key] 
-        { get { return this[key, null]; } }
+        protected String this[String key] => this[key, null];
 
         /// <summary>
         /// Get a configuration value
@@ -89,7 +85,7 @@ namespace FlexLabs.Configuration
                 if (String.IsNullOrEmpty(key) || key.Trim().Equals(String.Empty))
                     return null;
 
-#if !DNXCORE50
+#if !NETSTANDARD1_1
                 foreach (var appKey in ConfigurationManager.AppSettings.AllKeys)
                     if (key.Equals(appKey, StringComparison.OrdinalIgnoreCase))
                         return ConfigurationManager.AppSettings[key];
@@ -112,10 +108,8 @@ namespace FlexLabs.Configuration
         /// <param name="key">Configuration key</param>
         /// <param name="defaultValue">Fallback default value</param>
         /// <returns>Configuration value</returns>
-        protected T GetValue<T>(String key, T defaultValue = default(T))
-        {
-            return TypeConvert.To<T>(this[key], defaultValue);
-        }
+        protected T GetValue<T>(String key, T defaultValue = default(T)) 
+            => TypeConvert.To<T>(this[key], defaultValue);
 
         /// <summary>
         /// Update the configuration source with a new value

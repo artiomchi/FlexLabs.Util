@@ -12,16 +12,12 @@ namespace FlexLabs.Linq
         {
             exp = expression;
         }
-        public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query)
-        {
-            return query.OrderBy(exp);
-        }
+
+        public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query) => query.OrderBy(exp);
+
         public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query, bool ascending)
-        {
-            if (ascending)
-                return query.OrderBy(exp);
-            else
-                return query.OrderByDescending(exp);
-        }
+            => ascending
+                ? query.OrderBy(exp)
+                : query.OrderByDescending(exp);
     }
 }

@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.1;net35;net45</TargetFrameworks>
+    <Authors>Artiom Chilaru</Authors>
+    <Company />
+    <Product>FlexLabs Util</Product>
+    <Description>It's like a swiss army knife.. We've got some extra helpers for all kinds of situations!</Description>
+    <Copyright>Artiom Chilaru © 2017</Copyright>
+    <PackageProjectUrl>https://github.com/artiomchi/FlexLabs.Util</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/artiomchi/FlexLabs.Util</RepositoryUrl>
+    <AssemblyVersion>1.1.4</AssemblyVersion>
+    <FileVersion>1.1.4</FileVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.1.4</Version>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard1.1' ">
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

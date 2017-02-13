@@ -48,18 +48,9 @@ namespace FlexLabs.Linq
             storage.Add(key, new OrderByExpressions<TModel, TResult1, TResult2, TResult3, TResult4, TResult5>(expression1, expression2, expression3, expression4, expression5));
         }
 
-        public IOrderByExpression<TModel> this[TKey key]
-        {
-            get
-            {
-                return storage[key];
-            }
-        }
+        public IOrderByExpression<TModel> this[TKey key] => storage[key];
 
-        public Boolean ContainsKey(TKey key)
-        {
-            return storage.ContainsKey(key);
-        }
+        public Boolean ContainsKey(TKey key) => storage.ContainsKey(key);
 
         public IEnumerator GetEnumerator()
         {
