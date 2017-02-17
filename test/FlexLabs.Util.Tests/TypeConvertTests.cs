@@ -100,8 +100,8 @@ namespace FlexLabs.Util.Tests
         [Fact]
         public void TypeConvert_Bool()
         {
-            var value = TypeConvert.To<Boolean>("true");
-            Assert.IsType(typeof(Boolean), value);
+            var value = TypeConvert.To<bool>("true");
+            Assert.IsType(typeof(bool), value);
             Assert.Equal(value, true);
         }
 

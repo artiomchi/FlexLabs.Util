@@ -9,10 +9,10 @@
     <Copyright>Artiom Chilaru © 2017</Copyright>
     <PackageProjectUrl>https://github.com/artiomchi/FlexLabs.Util</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artiomchi/FlexLabs.Util</RepositoryUrl>
-    <AssemblyVersion>1.1.4</AssemblyVersion>
-    <FileVersion>1.1.4</FileVersion>
+    <AssemblyVersion>1.1.5</AssemblyVersion>
+    <FileVersion>1.1.5</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.1.4</Version>
+    <Version>1.1.5-beta1</Version>
     <RootNamespace>FlexLabs</RootNamespace>
   </PropertyGroup>
 
