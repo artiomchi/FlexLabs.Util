@@ -9,9 +9,7 @@ namespace FlexLabs.Linq
     {
         private Expression<Func<TKey, TResult>> _exp = null;
         public OrderByExpression(Expression<Func<TKey, TResult>> expression)
-        {
-            _exp = expression;
-        }
+            => _exp = expression;
 
         public IOrderedQueryable<TKey> ApplyOrdering(IQueryable<TKey> query) => query.OrderBy(_exp);
 

@@ -13,6 +13,7 @@
     <FileVersion>1.1.4</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Version>1.1.4</Version>
+    <RootNamespace>FlexLabs</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard1.1' ">

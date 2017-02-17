@@ -4,6 +4,11 @@ using System.Collections.Generic;
 #if !NETSTANDARD1_1
 using System.Configuration;
 #endif
+#if NET35
+using System.Threading;
+#else
+using System.Threading.Tasks;
+#endif
 
 namespace FlexLabs.Configuration
 {
@@ -16,29 +21,27 @@ namespace FlexLabs.Configuration
     /// </summary>
     public abstract class ConfigurationBase
     {
+        private static IConfigurationSourceFactory _configurationSourceFactory;
+        private static IDictionary<string, string> _dbSettings;
+        private DateTime? _lastRefreshed;
+
         /// <summary>
         /// Default constructor initialising the configuration set
         /// </summary>
         /// <param name="repository">The main configuration source</param>
-        protected ConfigurationBase(IConfigurationSource repository)
+        protected ConfigurationBase(IConfigurationSourceFactory configurationSourceFactory)
         {
             _default = this;
-            UpdateSettings(repository);
+            _configurationSourceFactory = configurationSourceFactory;
+            UpdateSettings();
         }
 
-        private static IDictionary<string, string> _dbSettings;
         private static ConfigurationBase _default;
-        protected static ConfigurationBase Default
-        {
-            get
-            {
-                if (_default == null)
-                    throw new Exception("Configuration has not been initialised");
-                return _default;
-            }
-        }
+        protected static ConfigurationBase Default => _default ?? throw new Exception("Configuration has not been initialised");
+        public TimeSpan? RefreshInterval { get; protected set; }
+        public bool AutoRefreshSynchronously { get; protected set; }
 
-        private static object _updateSettingsLock = new object();
+        private static readonly object _updateSettingsLock = new object();
         /// <summary>
         /// Update the settings from the configuration store
         /// </summary>
@@ -49,6 +52,7 @@ namespace FlexLabs.Configuration
             {
                 _dbSettings = configStore.LoadValues();
                 SettingsUpdated();
+                _lastRefreshed = DateTime.UtcNow;
             }
         }
 
@@ -57,10 +61,22 @@ namespace FlexLabs.Configuration
         /// </summary>
         public static void UpdateSettings()
         {
-            using (var configStore = Injector.GetInstance<IConfigurationSource>())
+            using (var configStore = _configurationSourceFactory.GetConfigurationSource())
             {
                 Default.UpdateSettings(configStore);
             }
+        }
+
+        private void RefreshSettings()
+        {
+            if (AutoRefreshSynchronously)
+                UpdateSettings();
+            else
+#if NET35
+                new Thread(UpdateSettings).Start();
+#else
+                Task.Run(delegate { UpdateSettings(); });
+#endif
         }
 
         protected virtual void SettingsUpdated() { }
@@ -82,6 +98,9 @@ namespace FlexLabs.Configuration
         {
             get
             {
+                if (RefreshInterval.HasValue && (!_lastRefreshed.HasValue || DateTime.UtcNow.Subtract(_lastRefreshed.Value) > RefreshInterval))
+                    RefreshSettings();
+
                 if (string.IsNullOrEmpty(key) || key.Trim().Equals(string.Empty))
                     return null;
 
@@ -109,7 +128,7 @@ namespace FlexLabs.Configuration
         /// <param name="defaultValue">Fallback default value</param>
         /// <returns>Configuration value</returns>
         protected T GetValue<T>(string key, T defaultValue = default(T))
-            => TypeConvert.To<T>(this[key], defaultValue);
+            => TypeConvert.To(this[key], defaultValue);
 
         /// <summary>
         /// Update the configuration source with a new value
@@ -124,12 +143,10 @@ namespace FlexLabs.Configuration
             {
                 if (confSource == null)
                 {
-                    confSource = Injector.GetInstance<IConfigurationSource>();
+                    confSource = _configurationSourceFactory.GetConfigurationSource();
                     sourceLocal = true;
                 }
-                string value = null;
-                if (valueObj != null)
-                    value = valueObj.ToString();
+                var value = valueObj?.ToString();
                 confSource.UpdateValue(key, value);
                 _dbSettings[key] = value;
             }

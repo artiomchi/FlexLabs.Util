@@ -52,9 +52,6 @@ namespace FlexLabs.Linq
 
         public bool ContainsKey(TKey key) => _expressions.ContainsKey(key);
 
-        public IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerator GetEnumerator() => throw new NotImplementedException();
     }
 }
