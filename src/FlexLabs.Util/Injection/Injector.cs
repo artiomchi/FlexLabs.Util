@@ -45,7 +45,7 @@ namespace FlexLabs.Injection
         /// <param name="serviceType">Service class type</param>
         /// <returns>Strongly typed service instance</returns>
         //[DebuggerStepThrough]
-        public static Object GetInstance(Type serviceType)
+        public static object GetInstance(Type serviceType)
         {
             return _instance.GetInstanceInternal(serviceType);
         }
@@ -67,6 +67,6 @@ namespace FlexLabs.Injection
         /// </summary>
         /// <param name="serviceType">Service class type</param>
         /// <returns>Strongly typed service instance</returns>
-        protected abstract Object GetInstanceInternal(Type serviceType);
+        protected abstract object GetInstanceInternal(Type serviceType);
     }
 }

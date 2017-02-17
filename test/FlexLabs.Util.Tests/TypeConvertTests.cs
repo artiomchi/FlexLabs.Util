@@ -8,7 +8,7 @@ namespace FlexLabs.Util.Tests
         [Fact]
         public void TypeConvert_Int()
         {
-            var value = TypeConvert.ToType("123", typeof(Int32));
+            var value = TypeConvert.ToType("123", typeof(int));
             Assert.IsType(typeof(int), value);
             Assert.Equal(value, 123);
         }
@@ -16,7 +16,7 @@ namespace FlexLabs.Util.Tests
         [Fact]
         public void TypeConvert_Impl_Int()
         {
-            var value = TypeConvert.To<Int32>("123");
+            var value = TypeConvert.To<int>("123");
             Assert.IsType(typeof(int), value);
             Assert.Equal(value, 123);
         }
@@ -24,7 +24,7 @@ namespace FlexLabs.Util.Tests
         [Fact]
         public void TypeConvert_IntNull()
         {
-            var value = TypeConvert.ToType("123", typeof(Int32?));
+            var value = TypeConvert.ToType("123", typeof(int?));
             Assert.IsType(typeof(int), value);
             Assert.Equal(value, 123);
         }
@@ -32,14 +32,14 @@ namespace FlexLabs.Util.Tests
         [Fact]
         public void TypeConvert_IntActualNull()
         {
-            var value = TypeConvert.ToType("", typeof(Int32?));
+            var value = TypeConvert.ToType("", typeof(int?));
             Assert.Null(value);
         }
 
         [Fact]
         public void TypeConvert_Impl_IntNull()
         {
-            var value = TypeConvert.To<Int32?>("123");
+            var value = TypeConvert.To<int?>("123");
             Assert.IsType(typeof(int), value);
             Assert.Equal(value, 123);
         }
@@ -47,7 +47,7 @@ namespace FlexLabs.Util.Tests
         [Fact]
         public void TypeConvert_Impl_IntActualNull()
         {
-            var value = TypeConvert.To<Int32?>("");
+            var value = TypeConvert.To<int?>("");
             Assert.Null(value);
         }
 

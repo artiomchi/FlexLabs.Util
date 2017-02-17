@@ -26,7 +26,7 @@ namespace FlexLabs.Configuration
             UpdateSettings(repository);
         }
 
-        private static IDictionary<String, String> DBSettings;
+        private static IDictionary<string, string> _dbSettings;
         private static ConfigurationBase _default;
         protected static ConfigurationBase Default
         {
@@ -38,16 +38,16 @@ namespace FlexLabs.Configuration
             }
         }
 
-        private static Object UpdateSettingsLock = new Object();
+        private static object _updateSettingsLock = new object();
         /// <summary>
         /// Update the settings from the configuration store
         /// </summary>
         /// <param name="configStore">Pre-initialised configuration store</param>
         protected virtual void UpdateSettings(IConfigurationSource configStore)
         {
-            lock (UpdateSettingsLock)
+            lock (_updateSettingsLock)
             {
-                DBSettings = configStore.LoadValues();
+                _dbSettings = configStore.LoadValues();
                 SettingsUpdated();
             }
         }
@@ -70,7 +70,7 @@ namespace FlexLabs.Configuration
         /// </summary>
         /// <param name="key">Configuration key</param>
         /// <returns>Configuration value</returns>
-        protected String this[String key] => this[key, null];
+        protected string this[string key] => this[key, null];
 
         /// <summary>
         /// Get a configuration value
@@ -78,11 +78,11 @@ namespace FlexLabs.Configuration
         /// <param name="key">Configuration key</param>
         /// <param name="defaultValue">Fallback default value</param>
         /// <returns>Configuration value</returns>
-        protected String this[String key, String defaultValue]
+        protected string this[string key, string defaultValue]
         {
             get
             {
-                if (String.IsNullOrEmpty(key) || key.Trim().Equals(String.Empty))
+                if (string.IsNullOrEmpty(key) || key.Trim().Equals(string.Empty))
                     return null;
 
 #if !NETSTANDARD1_1
@@ -91,11 +91,11 @@ namespace FlexLabs.Configuration
                         return ConfigurationManager.AppSettings[key];
 #endif
 
-                if (DBSettings == null)
+                if (_dbSettings == null)
                     throw new NullReferenceException("Settings weren't initialised properly");
 
-                if (DBSettings.ContainsKey(key))
-                    return DBSettings[key];
+                if (_dbSettings.ContainsKey(key))
+                    return _dbSettings[key];
 
                 return defaultValue;
             }
@@ -108,7 +108,7 @@ namespace FlexLabs.Configuration
         /// <param name="key">Configuration key</param>
         /// <param name="defaultValue">Fallback default value</param>
         /// <returns>Configuration value</returns>
-        protected T GetValue<T>(String key, T defaultValue = default(T)) 
+        protected T GetValue<T>(string key, T defaultValue = default(T))
             => TypeConvert.To<T>(this[key], defaultValue);
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace FlexLabs.Configuration
         /// <param name="key">Configuration key</param>
         /// <param name="valueObj">Configuration value</param>
         /// <param name="confSource">Optional pre-initialised configuration source</param>
-        protected void SetValue(String key, Object valueObj, IConfigurationSource confSource = null)
+        protected void SetValue(string key, object valueObj, IConfigurationSource confSource = null)
         {
             var sourceLocal = false;
             try
@@ -127,11 +127,11 @@ namespace FlexLabs.Configuration
                     confSource = Injector.GetInstance<IConfigurationSource>();
                     sourceLocal = true;
                 }
-                String value = null;
+                string value = null;
                 if (valueObj != null)
                     value = valueObj.ToString();
                 confSource.UpdateValue(key, value);
-                DBSettings[key] = value;
+                _dbSettings[key] = value;
             }
             finally
             {

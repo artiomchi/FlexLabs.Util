@@ -17,14 +17,14 @@ namespace FlexLabs
         /// <param name="value">Serialised value</param>
         /// <param name="fallback">Optional fallback value in case the source is empty/null</param>
         /// <returns>Strongly typed converted value</returns>
-        public static T To<T>(String value, T fallback = default(T))
+        public static T To<T>(string value, T fallback = default(T))
         {
             if (typeof(T).Equals(typeof(Type)))
                 throw new InvalidOperationException("Not going to parse Types, don't want to be confused with ToType()");
             return (T)ToType(value, typeof(T), fallback);
         }
 
-        private static Boolean IsTypeEnum(Type type)
+        private static bool IsTypeEnum(Type type)
         {
 #if NETSTANDARD1_1
             return type.GetTypeInfo().IsEnum;
@@ -40,9 +40,9 @@ namespace FlexLabs
         /// <param name="newType">The type you want to convert to</param>
         /// <param name="fallback">Optional fallback value in case the source is empty/null</param>
         /// <returns>Strongly typed converted value</returns>
-        public static Object ToType(String value, Type newType, Object fallback = null)
+        public static object ToType(string value, Type newType, object fallback = null)
         {
-            if (newType.Equals(typeof(String)))
+            if (newType.Equals(typeof(string)))
                 return value;
             if (IsTypeEnum(newType))
                 return Enum.Parse(newType, value);
@@ -50,7 +50,7 @@ namespace FlexLabs
             Type u = Nullable.GetUnderlyingType(newType);
             if (u != null)
             {
-                if (String.IsNullOrEmpty(value) || value.Trim().Equals(String.Empty))
+                if (string.IsNullOrEmpty(value) || value.Trim().Equals(string.Empty))
                     return fallback;
 
                 if (IsTypeEnum(u))
@@ -58,7 +58,7 @@ namespace FlexLabs
                 return AutoConvert(value, u);
             }
 
-            if (String.IsNullOrEmpty(value) || value.Trim().Equals(String.Empty))
+            if (string.IsNullOrEmpty(value) || value.Trim().Equals(string.Empty))
             {
                 if (fallback != null)
                     return fallback;
@@ -69,7 +69,7 @@ namespace FlexLabs
             return AutoConvert(value, newType);
         }
 
-        private static Object AutoConvert(String value, Type newType)
+        private static object AutoConvert(string value, Type newType)
         {
             if (newType == typeof(Guid))
                 return TypeDescriptor.GetConverter(newType).ConvertFromInvariantString(value);
