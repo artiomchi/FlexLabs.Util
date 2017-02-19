@@ -2,18 +2,20 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;net35;net45</TargetFrameworks>
+    <RootNamespace>FlexLabs</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FlexLabs.Util.xml</DocumentationFile>
     <Authors>Artiom Chilaru</Authors>
-    <Company />
+    <Company>Artiom Chilaru</Company>
     <Product>FlexLabs Util</Product>
     <Description>It's like a swiss army knife.. We've got some extra helpers for all kinds of situations!</Description>
     <Copyright>Artiom Chilaru © 2017</Copyright>
     <PackageProjectUrl>https://github.com/artiomchi/FlexLabs.Util</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artiomchi/FlexLabs.Util</RepositoryUrl>
-    <AssemblyVersion>1.1.5</AssemblyVersion>
-    <FileVersion>1.1.5</FileVersion>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.1.5-beta2</Version>
-    <RootNamespace>FlexLabs</RootNamespace>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.2.0</FileVersion>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard1.1' ">

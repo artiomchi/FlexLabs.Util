@@ -27,7 +27,7 @@ namespace FlexLabs.Configuration
         /// <summary>
         /// Default constructor initialising the configuration set
         /// </summary>
-        /// <param name="repository">The main configuration source</param>
+        /// <param name="configurationSourceFactory">The main configuration source</param>
         protected ConfigurationBase(IConfigurationSourceFactory configurationSourceFactory)
         {
             _default = this;
