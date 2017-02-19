@@ -130,40 +130,13 @@ namespace FlexLabs.Util.Tests
             Assert.Null(value);
         }
 
-        [Fact]
-        public void TypeConvert_DateTime()
+        [Theory]
+        [InlineData("2012-05-18")]
+        [InlineData("2012-05-18 12:30")]
+        [InlineData("1/2/2012 12:30")]
+        [InlineData("1/2/2012 12:30:12")]
+        public void TypeConvert_DateTime(string dateStr)
         {
-            var dateStr = DateTime.Now.ToString();
-            var date = DateTime.Parse(dateStr);
-            var value = TypeConvert.To<DateTime>(dateStr);
-            Assert.IsType(typeof(DateTime), value);
-            Assert.Equal(value, date);
-        }
-
-        [Fact]
-        public void TypeConvert_DateTime_Universal()
-        {
-            var dateStr = "2012-05-18";
-            var date = DateTime.Parse(dateStr);
-            var value = TypeConvert.To<DateTime>(dateStr);
-            Assert.IsType(typeof(DateTime), value);
-            Assert.Equal(value, date);
-        }
-
-        [Fact]
-        public void TypeConvert_DateTime_Regular()
-        {
-            var dateStr = "1/2/2012 12:30";
-            var date = DateTime.Parse(dateStr);
-            var value = TypeConvert.To<DateTime>(dateStr);
-            Assert.IsType(typeof(DateTime), value);
-            Assert.Equal(value, date);
-        }
-
-        [Fact]
-        public void TypeConvert_DateTime_Date()
-        {
-            var dateStr = "1/2/2012 12:30";
             var date = DateTime.Parse(dateStr);
             var value = TypeConvert.To<DateTime>(dateStr);
             Assert.IsType(typeof(DateTime), value);
