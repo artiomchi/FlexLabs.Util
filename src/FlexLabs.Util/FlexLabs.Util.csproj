@@ -12,7 +12,7 @@
     <AssemblyVersion>1.1.5</AssemblyVersion>
     <FileVersion>1.1.5</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.1.5-beta1</Version>
+    <Version>1.1.5-beta2</Version>
     <RootNamespace>FlexLabs</RootNamespace>
   </PropertyGroup>
 
