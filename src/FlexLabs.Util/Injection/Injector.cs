@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace FlexLabs.Injection
 {
@@ -14,9 +13,7 @@ namespace FlexLabs.Injection
         /// Constructor
         /// </summary>
         protected Injector()
-        {
-            _instance = this;
-        }
+            => _instance = this;
 
         /// <summary>
         /// Get a strongly typed instance of a service
@@ -25,9 +22,7 @@ namespace FlexLabs.Injection
         /// <returns>Strongly typed service instance</returns>
         //[DebuggerStepThrough]
         public static TService GetInstance<TService>() where TService : class
-        {
-            return _instance.GetInstanceInternal<TService>();
-        }
+            => _instance.GetInstanceInternal<TService>();
 
         /// <summary>
         /// Tries to get a strongly typed instance of a service, but doesn't throw an exception
@@ -36,9 +31,7 @@ namespace FlexLabs.Injection
         /// <returns>Strongly typed service instance</returns>
         //[DebuggerStepThrough]
         public static TService TryGetInstance<TService>() where TService : class
-        {
-            return _instance.TryGetInstanceInternal<TService>();
-        }
+            => _instance.TryGetInstanceInternal<TService>();
 
         /// <summary>
         /// Get a strongly typed instance of a service
@@ -46,10 +39,8 @@ namespace FlexLabs.Injection
         /// <param name="serviceType">Service class type</param>
         /// <returns>Strongly typed service instance</returns>
         //[DebuggerStepThrough]
-        public static Object GetInstance(Type serviceType)
-        {
-            return _instance.GetInstanceInternal(serviceType);
-        }
+        public static object GetInstance(Type serviceType)
+            => _instance.GetInstanceInternal(serviceType);
 
         /// <summary>
         /// Internal implementation of <see cref="GetInstance{TService}"/> that calls the DI library to get the reference
@@ -68,6 +59,6 @@ namespace FlexLabs.Injection
         /// </summary>
         /// <param name="serviceType">Service class type</param>
         /// <returns>Strongly typed service instance</returns>
-        protected abstract Object GetInstanceInternal(Type serviceType);
+        protected abstract object GetInstanceInternal(Type serviceType);
     }
 }

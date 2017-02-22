@@ -13,12 +13,12 @@ namespace FlexLabs.Configuration
         /// Load all the values from the source
         /// </summary>
         /// <returns>A key/value dictionary of all the configuration values</returns>
-        IDictionary<String, String> LoadValues();
+        IDictionary<string, string> LoadValues();
         /// <summary>
         /// Update a configuration value in the configuration store
         /// </summary>
         /// <param name="key">Configuration key</param>
         /// <param name="value">Configuration value</param>
-        void UpdateValue(String key, String value);
+        void UpdateValue(string key, string value);
     }
 }

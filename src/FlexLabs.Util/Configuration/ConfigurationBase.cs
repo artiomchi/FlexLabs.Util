@@ -1,8 +1,12 @@
-﻿using FlexLabs.Injection;
-using System;
+﻿using System;
 using System.Collections.Generic;
-#if !DNXCORE50
+#if !NETSTANDARD1_1
 using System.Configuration;
+#endif
+#if NET35
+using System.Threading;
+#else
+using System.Threading.Tasks;
 #endif
 
 namespace FlexLabs.Configuration
@@ -16,39 +20,38 @@ namespace FlexLabs.Configuration
     /// </summary>
     public abstract class ConfigurationBase
     {
+        private static IConfigurationSourceFactory _configurationSourceFactory;
+        private static IDictionary<string, string> _dbSettings;
+        private DateTime? _lastRefreshed;
+
         /// <summary>
         /// Default constructor initialising the configuration set
         /// </summary>
-        /// <param name="repository">The main configuration source</param>
-        protected ConfigurationBase(IConfigurationSource repository)
+        /// <param name="configurationSourceFactory">The main configuration source</param>
+        protected ConfigurationBase(IConfigurationSourceFactory configurationSourceFactory)
         {
             _default = this;
-            UpdateSettings(repository);
+            _configurationSourceFactory = configurationSourceFactory;
+            UpdateSettings();
         }
 
-        private static IDictionary<String, String> DBSettings;
         private static ConfigurationBase _default;
-        protected static ConfigurationBase Default
-        {
-            get
-            {
-                if (_default == null)
-                    throw new Exception("Configuration has not been initialised");
-                return _default;
-            }
-        }
+        protected static ConfigurationBase Default => _default ?? throw new Exception("Configuration has not been initialised");
+        public TimeSpan? RefreshInterval { get; protected set; }
+        public bool AutoRefreshSynchronously { get; protected set; }
 
-        private static Object UpdateSettingsLock = new Object();
+        private static readonly object _updateSettingsLock = new object();
         /// <summary>
         /// Update the settings from the configuration store
         /// </summary>
         /// <param name="configStore">Pre-initialised configuration store</param>
         protected virtual void UpdateSettings(IConfigurationSource configStore)
         {
-            lock (UpdateSettingsLock)
+            lock (_updateSettingsLock)
             {
-                DBSettings = configStore.LoadValues();
+                _dbSettings = configStore.LoadValues();
                 SettingsUpdated();
+                _lastRefreshed = DateTime.UtcNow;
             }
         }
 
@@ -57,24 +60,32 @@ namespace FlexLabs.Configuration
         /// </summary>
         public static void UpdateSettings()
         {
-            using (var configStore = Injector.GetInstance<IConfigurationSource>())
+            using (var configStore = _configurationSourceFactory.GetConfigurationSource())
             {
                 Default.UpdateSettings(configStore);
             }
         }
 
-        protected virtual void SettingsUpdated()
+        private void RefreshSettings()
         {
-
+            if (AutoRefreshSynchronously)
+                UpdateSettings();
+            else
+#if NET35
+                new Thread(UpdateSettings).Start();
+#else
+                Task.Run(delegate { UpdateSettings(); });
+#endif
         }
+
+        protected virtual void SettingsUpdated() { }
 
         /// <summary>
         /// Get a configuration value
         /// </summary>
         /// <param name="key">Configuration key</param>
         /// <returns>Configuration value</returns>
-        protected String this[String key] 
-        { get { return this[key, null]; } }
+        protected string this[string key] => this[key, null];
 
         /// <summary>
         /// Get a configuration value
@@ -82,24 +93,27 @@ namespace FlexLabs.Configuration
         /// <param name="key">Configuration key</param>
         /// <param name="defaultValue">Fallback default value</param>
         /// <returns>Configuration value</returns>
-        protected String this[String key, String defaultValue]
+        protected string this[string key, string defaultValue]
         {
             get
             {
-                if (String.IsNullOrEmpty(key) || key.Trim().Equals(String.Empty))
+                if (RefreshInterval.HasValue && (!_lastRefreshed.HasValue || DateTime.UtcNow.Subtract(_lastRefreshed.Value) > RefreshInterval))
+                    RefreshSettings();
+
+                if (string.IsNullOrEmpty(key) || key.Trim().Equals(string.Empty))
                     return null;
 
-#if !DNXCORE50
+#if !NETSTANDARD1_1
                 foreach (var appKey in ConfigurationManager.AppSettings.AllKeys)
                     if (key.Equals(appKey, StringComparison.OrdinalIgnoreCase))
                         return ConfigurationManager.AppSettings[key];
 #endif
 
-                if (DBSettings == null)
+                if (_dbSettings == null)
                     throw new NullReferenceException("Settings weren't initialised properly");
 
-                if (DBSettings.ContainsKey(key))
-                    return DBSettings[key];
+                if (_dbSettings.ContainsKey(key))
+                    return _dbSettings[key];
 
                 return defaultValue;
             }
@@ -112,10 +126,8 @@ namespace FlexLabs.Configuration
         /// <param name="key">Configuration key</param>
         /// <param name="defaultValue">Fallback default value</param>
         /// <returns>Configuration value</returns>
-        protected T GetValue<T>(String key, T defaultValue = default(T))
-        {
-            return TypeConvert.To<T>(this[key], defaultValue);
-        }
+        protected T GetValue<T>(string key, T defaultValue = default(T))
+            => TypeConvert.To(this[key], defaultValue);
 
         /// <summary>
         /// Update the configuration source with a new value
@@ -123,21 +135,19 @@ namespace FlexLabs.Configuration
         /// <param name="key">Configuration key</param>
         /// <param name="valueObj">Configuration value</param>
         /// <param name="confSource">Optional pre-initialised configuration source</param>
-        protected void SetValue(String key, Object valueObj, IConfigurationSource confSource = null)
+        protected void SetValue(string key, object valueObj, IConfigurationSource confSource = null)
         {
             var sourceLocal = false;
             try
             {
                 if (confSource == null)
                 {
-                    confSource = Injector.GetInstance<IConfigurationSource>();
+                    confSource = _configurationSourceFactory.GetConfigurationSource();
                     sourceLocal = true;
                 }
-                String value = null;
-                if (valueObj != null)
-                    value = valueObj.ToString();
+                var value = valueObj?.ToString();
                 confSource.UpdateValue(key, value);
-                DBSettings[key] = value;
+                _dbSettings[key] = value;
             }
             finally
             {

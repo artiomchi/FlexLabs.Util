@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.1;net35;net45</TargetFrameworks>
+    <RootNamespace>FlexLabs</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FlexLabs.Util.xml</DocumentationFile>
+    <Authors>Artiom Chilaru</Authors>
+    <Company>Artiom Chilaru</Company>
+    <Product>FlexLabs Util</Product>
+    <Description>It's like a swiss army knife.. We've got some extra helpers for all kinds of situations!</Description>
+    <Copyright>Artiom Chilaru © 2017</Copyright>
+    <PackageProjectUrl>https://github.com/artiomchi/FlexLabs.Util</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/artiomchi/FlexLabs.Util</RepositoryUrl>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.2.0</FileVersion>
+    <Version>1.2.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\Keys\FlexLabsStrongKey.pfx</AssemblyOriginatorKeyFile>
+    <PostBuildEvent>..\..\..\..\..\..\signtool.exe sign /n "Artiom Chilaru" /t "http://timestamp.digicert.com" FlexLabs.Util.dll</PostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard1.1' ">
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
