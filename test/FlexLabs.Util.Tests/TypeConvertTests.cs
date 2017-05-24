@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Xunit;
 
 namespace FlexLabs.Util.Tests
@@ -137,10 +138,10 @@ namespace FlexLabs.Util.Tests
         [InlineData("1/2/2012 12:30:12")]
         public void TypeConvert_DateTime(string dateStr)
         {
-            var date = DateTime.Parse(dateStr);
+            var date = DateTime.Parse(dateStr, CultureInfo.InvariantCulture);
             var value = TypeConvert.To<DateTime>(dateStr);
             Assert.IsType(typeof(DateTime), value);
-            Assert.Equal(value, date);
+            Assert.Equal(date, value);
         }
 
         [Fact]
@@ -158,6 +159,26 @@ namespace FlexLabs.Util.Tests
         {
             var value = TypeConvert.To<DateTime?>("");
             Assert.Null(value);
+        }
+
+        [Theory]
+        [InlineData("en-US")]
+        [InlineData("es-ES")]
+        public void TypeConvert_Decimal(string culture)
+        {
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(culture);
+            Assert.Equal(0.2m, TypeConvert.To<decimal>("0.2"));
+            Assert.Equal(2, TypeConvert.To<decimal>("0,2"));
+        }
+
+        [Theory]
+        [InlineData("en-US")]
+        [InlineData("es-ES")]
+        public void TypeConvert_Double(string culture)
+        {
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(culture);
+            Assert.Equal(0.2, TypeConvert.To<double>("0.2"));
+            Assert.Equal(2, TypeConvert.To<double>("0,2"));
         }
     }
 }
