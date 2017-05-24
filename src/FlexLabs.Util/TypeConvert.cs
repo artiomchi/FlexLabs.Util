@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
 
 namespace FlexLabs
@@ -16,12 +17,13 @@ namespace FlexLabs
         /// <typeparam name="T">The type you want to convert to</typeparam>
         /// <param name="value">Serialised value</param>
         /// <param name="fallback">Optional fallback value in case the source is empty/null</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information</param>
         /// <returns>Strongly typed converted value</returns>
-        public static T To<T>(string value, T fallback = default(T))
+        public static T To<T>(string value, T fallback = default(T), IFormatProvider provider = null)
         {
             if (typeof(T).Equals(typeof(Type)))
                 throw new InvalidOperationException("Not going to parse Types, don't want to be confused with ToType()");
-            return (T)ToType(value, typeof(T), fallback);
+            return (T)ToType(value, typeof(T), fallback, provider);
         }
 
         private static bool IsTypeEnum(Type type)
@@ -39,8 +41,9 @@ namespace FlexLabs
         /// <param name="value">Serialised value</param>
         /// <param name="newType">The type you want to convert to</param>
         /// <param name="fallback">Optional fallback value in case the source is empty/null</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information</param>
         /// <returns>Strongly typed converted value</returns>
-        public static object ToType(string value, Type newType, object fallback = null)
+        public static object ToType(string value, Type newType, object fallback = null, IFormatProvider provider = null)
         {
             if (newType.Equals(typeof(string)))
                 return value;
@@ -66,14 +69,14 @@ namespace FlexLabs
                     return Activator.CreateInstance(newType);
                 return null;
             }
-            return AutoConvert(value, newType);
+            return AutoConvert(value, newType, provider);
         }
 
-        private static object AutoConvert(string value, Type newType)
+        private static object AutoConvert(string value, Type newType, IFormatProvider provider = null)
         {
             if (newType == typeof(Guid))
                 return TypeDescriptor.GetConverter(newType).ConvertFromInvariantString(value);
-            return Convert.ChangeType(value, newType);
+            return Convert.ChangeType(value, newType, provider ?? CultureInfo.InvariantCulture);
         }
     }
 }
