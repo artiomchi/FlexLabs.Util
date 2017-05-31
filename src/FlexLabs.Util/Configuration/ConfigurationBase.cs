@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 #if !NETSTANDARD1_1
 using System.Configuration;
 #endif
@@ -85,7 +86,11 @@ namespace FlexLabs.Configuration
         /// </summary>
         /// <param name="key">Configuration key</param>
         /// <returns>Configuration value</returns>
-        protected string this[string key] => this[key, null];
+        protected string this[string key]
+        {
+            get => this[key, null];
+            set => SetValue(key, value);
+        }
 
         /// <summary>
         /// Get a configuration value
@@ -145,7 +150,9 @@ namespace FlexLabs.Configuration
                     confSource = _configurationSourceFactory.GetConfigurationSource();
                     sourceLocal = true;
                 }
-                var value = valueObj?.ToString();
+                var value = valueObj != null
+                    ? Convert.ToString(valueObj, CultureInfo.InvariantCulture)
+                    : null;
                 confSource.UpdateValue(key, value);
                 _dbSettings[key] = value;
             }
