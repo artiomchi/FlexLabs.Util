@@ -10,24 +10,24 @@ namespace FlexLabs.Util.Tests
         public void TypeConvert_Int()
         {
             var value = TypeConvert.ToType("123", typeof(int));
-            Assert.IsType(typeof(int), value);
-            Assert.Equal(value, 123);
+            Assert.IsType<int>(value);
+            Assert.Equal(123, value);
         }
 
         [Fact]
         public void TypeConvert_Impl_Int()
         {
             var value = TypeConvert.To<int>("123");
-            Assert.IsType(typeof(int), value);
-            Assert.Equal(value, 123);
+            Assert.IsType<int>(value);
+            Assert.Equal(123, value);
         }
 
         [Fact]
         public void TypeConvert_IntNull()
         {
             var value = TypeConvert.ToType("123", typeof(int?));
-            Assert.IsType(typeof(int), value);
-            Assert.Equal(value, 123);
+            Assert.IsType<int>(value);
+            Assert.Equal(123, value);
         }
 
         [Fact]
@@ -41,8 +41,8 @@ namespace FlexLabs.Util.Tests
         public void TypeConvert_Impl_IntNull()
         {
             var value = TypeConvert.To<int?>("123");
-            Assert.IsType(typeof(int), value);
-            Assert.Equal(value, 123);
+            Assert.IsType<int>(value);
+            Assert.Equal(123, value);
         }
 
         [Fact]
@@ -56,24 +56,24 @@ namespace FlexLabs.Util.Tests
         public void TypeConvert_Enum()
         {
             var value = TypeConvert.ToType("OrdinalIgnoreCase", typeof(StringComparison));
-            Assert.IsType(typeof(StringComparison), value);
-            Assert.Equal(value, StringComparison.OrdinalIgnoreCase);
+            Assert.IsType<StringComparison>(value);
+            Assert.Equal(StringComparison.OrdinalIgnoreCase, value);
         }
 
         [Fact]
         public void TypeConvert_Impl_Enum()
         {
             var value = TypeConvert.To<StringComparison>("OrdinalIgnoreCase");
-            Assert.IsType(typeof(StringComparison), value);
-            Assert.Equal(value, StringComparison.OrdinalIgnoreCase);
+            Assert.IsType<StringComparison>(value);
+            Assert.Equal(StringComparison.OrdinalIgnoreCase, value);
         }
 
         [Fact]
         public void TypeConvert_EnumNull()
         {
             var value = TypeConvert.ToType("OrdinalIgnoreCase", typeof(StringComparison?));
-            Assert.IsType(typeof(StringComparison), value);
-            Assert.Equal(value, StringComparison.OrdinalIgnoreCase);
+            Assert.IsType<StringComparison>(value);
+            Assert.Equal(StringComparison.OrdinalIgnoreCase, value);
         }
 
         [Fact]
@@ -87,8 +87,8 @@ namespace FlexLabs.Util.Tests
         public void TypeConvert_Impl_EnumNull()
         {
             var value = TypeConvert.To<StringComparison?>("OrdinalIgnoreCase");
-            Assert.IsType(typeof(StringComparison), value);
-            Assert.Equal(value, StringComparison.OrdinalIgnoreCase);
+            Assert.IsType<StringComparison>(value);
+            Assert.Equal(StringComparison.OrdinalIgnoreCase, value);
         }
 
         [Fact]
@@ -102,8 +102,8 @@ namespace FlexLabs.Util.Tests
         public void TypeConvert_Bool()
         {
             var value = TypeConvert.To<bool>("true");
-            Assert.IsType(typeof(bool), value);
-            Assert.Equal(value, true);
+            Assert.IsType<bool>(value);
+            Assert.True(value);
         }
 
         [Fact]
@@ -111,7 +111,7 @@ namespace FlexLabs.Util.Tests
         {
             var guid = Guid.NewGuid();
             var value = TypeConvert.To<Guid>(guid.ToString());
-            Assert.IsType(typeof(Guid), value);
+            Assert.IsType<Guid>(value);
             Assert.Equal(value, guid);
         }
 
@@ -120,7 +120,7 @@ namespace FlexLabs.Util.Tests
         {
             var guid = Guid.NewGuid();
             var value = TypeConvert.To<Guid?>(guid.ToString());
-            Assert.IsType(typeof(Guid), value);
+            Assert.IsType<Guid>(value);
             Assert.Equal(value, guid);
         }
 
@@ -140,7 +140,7 @@ namespace FlexLabs.Util.Tests
         {
             var date = DateTime.Parse(dateStr, CultureInfo.InvariantCulture);
             var value = TypeConvert.To<DateTime>(dateStr);
-            Assert.IsType(typeof(DateTime), value);
+            Assert.IsType<DateTime>(value);
             Assert.Equal(date, value);
         }
 
@@ -150,7 +150,7 @@ namespace FlexLabs.Util.Tests
             var dateStr = DateTime.Now.ToString();
             var date = DateTime.Parse(dateStr);
             var value = TypeConvert.To<DateTime?>(dateStr);
-            Assert.IsType(typeof(DateTime), value);
+            Assert.IsType<DateTime>(value);
             Assert.Equal(value, date);
         }
 
