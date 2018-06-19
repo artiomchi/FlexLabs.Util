@@ -15,17 +15,17 @@
     <Copyright>Artiom Chilaru © 2017</Copyright>
     <PackageProjectUrl>https://github.com/artiomchi/FlexLabs.Util</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artiomchi/FlexLabs.Util</RepositoryUrl>
-    <VersionPrefix>2.1.0</VersionPrefix>
+    <VersionPrefix>2.1.1</VersionPrefix>
     <PackageReleaseNotes>
 * Removed old dependency by net35, upgraded dependency to netstandard1.1 to netstandard1.3
 + Adding `HashComputeStream` that can calculate the checksum of a datastream while it's being read/written to
     </PackageReleaseNotes>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
     <DefineConstants>$(DefineConstants);CORE</DefineConstants>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <SignAssembly>True</SignAssembly>
