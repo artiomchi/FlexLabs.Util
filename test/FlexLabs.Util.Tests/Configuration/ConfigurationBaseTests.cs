@@ -98,8 +98,8 @@ namespace FlexLabs.Util.Tests.Configuration
 
             Assert.Equal(oldValue, TestConfigurationBase.String3);
             InMemoryConfigurationSource.Storage[nameof(TestConfigurationBase.String3)] = newValue;
-            Assert.Equal(oldValue, TestConfigurationBase.String3);
-            Assert.NotEqual(newValue, TestConfigurationBase.String3);
+            Assert.NotEqual(oldValue, TestConfigurationBase.String3);
+            Assert.Equal(newValue, TestConfigurationBase.String3);
         }
 
         [Fact]

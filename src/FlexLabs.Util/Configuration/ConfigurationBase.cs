@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-#if !NETSTANDARD1_1
+#if !CORE
 using System.Configuration;
 #endif
-#if NET35
-using System.Threading;
-#else
 using System.Threading.Tasks;
-#endif
 
 namespace FlexLabs.Configuration
 {
@@ -72,11 +68,7 @@ namespace FlexLabs.Configuration
             if (AutoRefreshSynchronously)
                 UpdateSettings();
             else
-#if NET35
-                new Thread(UpdateSettings).Start();
-#else
-                Task.Run(delegate { UpdateSettings(); });
-#endif
+                Task.Run((Action)UpdateSettings);
         }
 
         protected virtual void SettingsUpdated() { }
@@ -108,7 +100,7 @@ namespace FlexLabs.Configuration
                 if (string.IsNullOrEmpty(key) || key.Trim().Equals(string.Empty))
                     return null;
 
-#if !NETSTANDARD1_1
+#if !CORE
                 foreach (var appKey in ConfigurationManager.AppSettings.AllKeys)
                     if (key.Equals(appKey, StringComparison.OrdinalIgnoreCase))
                         return ConfigurationManager.AppSettings[key];

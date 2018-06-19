@@ -28,7 +28,7 @@ namespace FlexLabs
 
         private static bool IsTypeEnum(Type type)
         {
-#if NETSTANDARD1_1
+#if CORE
             return type.GetTypeInfo().IsEnum;
 #else
             return type.IsEnum;
