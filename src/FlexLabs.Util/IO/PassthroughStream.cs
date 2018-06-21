@@ -4,6 +4,10 @@ using System.IO;
 
 namespace FlexLabs.IO
 {
+    /// <summary>
+    /// Simple stream implementation that can be passed to a stream reader. Anything you write to this stream will be passed to the reader.
+    /// This approach lets you pass data to a stream "reader" on the fly without using an intermediary <see cref="MemoryStream"/>
+    /// </summary>
     public class PassthroughStream : Stream
     {
         private readonly long _length;
@@ -78,6 +82,9 @@ namespace FlexLabs.IO
             _buffer.Add(local);
         }
 
+        /// <summary>
+        /// Signal that we finished writing to the stream. The reader can still finish reading the remaining buffer.
+        /// </summary>
         public void Complete() => _buffer.CompleteAdding();
     }
 }
